@@ -6,9 +6,9 @@ import org.bson.types.ObjectId;
 
 @MongoEntity(collection="collect-users")
 public class UserEntity extends PanacheMongoEntity {
-  private ObjectId id;
-  private String name;
-  private String lastname;
-  private String email;
-  private String password;
+  public ObjectId id;
+  public String name;
+  public String lastname;
+  public String email;
+  public String password;
 }
