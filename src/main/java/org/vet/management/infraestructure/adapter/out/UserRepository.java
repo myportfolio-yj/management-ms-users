@@ -13,37 +13,37 @@ import java.util.List;
 @ApplicationScoped
 public class UserRepository implements PanacheMongoRepository<UserEntity>, IUserRepository {
   @Override
-  public List<UserEntity> getAllUsers() {
-    return listAll();
+  public List<User> getAllUsers() {
+    return listAll().stream().map(UserMapper.INSTANCE::UserEntityToUser).toList();
   }
 
   @Override
-  public UserEntity getUserById(String id) {
-    return findById(new ObjectId(id));
+  public User getUserById(String id) {
+    return UserMapper.INSTANCE.UserEntityToUser(findById(new ObjectId(id)));
   }
 
   @Override
-  public UserEntity createUser(User user) {
+  public User createUser(User user) {
     UserEntity userEntity = UserMapper.INSTANCE.UserToUserEntity(user);
     userEntity.persist();
-    return userEntity;
+    return UserMapper.INSTANCE.UserEntityToUser(userEntity);
   }
 
   @Override
-  public UserEntity updateUser(String id, User user) {
+  public User updateUser(String id, User user) {
     UserEntity userEntity = findById(new ObjectId(id));
     userEntity.name = user.getName();
     userEntity.lastname = user.getLastname();
     userEntity.email = user.getEmail();
     userEntity.password = user.getPassword();
     persist(userEntity);
-    return userEntity;
+    return UserMapper.INSTANCE.UserEntityToUser(userEntity);
   }
 
   @Override
-  public UserEntity deleteUser(String id) {
+  public User deleteUser(String id) {
     UserEntity userEntity = findById(new ObjectId(id));
     delete(userEntity);
-    return userEntity;
+    return UserMapper.INSTANCE.UserEntityToUser(userEntity);
   }
 }
