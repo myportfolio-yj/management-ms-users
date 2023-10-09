@@ -29,6 +29,7 @@ public class UserService {
   }
 
   public User updateUser(String id, User user) {
+    user.setPassword(passwordEncryption.encryptPassword(user.getPassword()));
     return userRepository.updateUser(id, user);
   }
 
